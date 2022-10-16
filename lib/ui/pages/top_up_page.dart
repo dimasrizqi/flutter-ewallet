@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../blocs/auth/auth_bloc.dart';
+import '../../blocs/paymen_methods/payment_method_bloc.dart';
 
 class TopUpPage extends StatelessWidget {
   const TopUpPage({super.key});
@@ -47,7 +48,8 @@ class TopUpPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '8008 2208 1996',
+                          state.user.cardNumber!.replaceFirstMapped(
+                              RegExp(r".{4}"), (match) => '${match.group(0)} '),
                           style: blackTextStyle.copyWith(
                               fontWeight: medium, fontSize: 16),
                         ),
@@ -74,16 +76,38 @@ class TopUpPage extends StatelessWidget {
           const SizedBox(
             height: 14,
           ),
-          const CardBank(
-            title: 'BANK BCA',
-            imgUrl: 'assets/img_bank_bca.png',
-            isSelected: true,
+          BlocProvider(
+            create: (context) => PaymentMethodBloc()..add(PaymentMethotGet()),
+            child: BlocBuilder<PaymentMethodBloc, PaymentMethodState>(
+              builder: (context, state) {
+                if (state is PaymentMethodSuccess) {
+                  return Column(
+                    children: const [
+                      CardBank(
+                        title: 'BANK BCA',
+                        imgUrl: 'assets/img_bank_bca.png',
+                        isSelected: true,
+                      ),
+                      CardBank(
+                        title: 'BANK BNI',
+                        imgUrl: 'assets/img_bank_bni.png',
+                      ),
+                      CardBank(
+                        title: 'BANK MANDIRI',
+                        imgUrl: 'assets/img_bank_mandiri.png',
+                      ),
+                      CardBank(
+                        title: 'BANK OCBC',
+                        imgUrl: 'assets/img_bank_ocbc.png',
+                      ),
+                    ],
+                  );
+                }
+
+                return const Center(child: CircularProgressIndicator());
+              },
+            ),
           ),
-          const CardBank(title: 'BANK BNI', imgUrl: 'assets/img_bank_bni.png'),
-          const CardBank(
-              title: 'BANK MANDIRI', imgUrl: 'assets/img_bank_mandiri.png'),
-          const CardBank(
-              title: 'BANK OCBC', imgUrl: 'assets/img_bank_ocbc.png'),
           const SizedBox(
             height: 30,
           ),
