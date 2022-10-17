@@ -8,3 +8,17 @@ abstract class TopupState extends Equatable {
 }
 
 class TopupInitial extends TopupState {}
+
+class TopupLoading extends TopupState {}
+
+class TopupFailed extends TopupState {
+  final String e;
+
+  const TopupFailed(this.e);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [e];
+}
+
+class TopupSucces extends TopupState {}
