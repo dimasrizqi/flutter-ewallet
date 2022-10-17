@@ -1,7 +1,6 @@
 import 'package:app_ecom_buidlagga/models/sign_in_from_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../blocs/auth/auth_bloc.dart';
@@ -136,6 +135,9 @@ class _SignInPageState extends State<SignInPage> {
                 onPressed: () {
                   Navigator.pushNamed(context, '/sign-up');
                 },
+              ),
+              const SizedBox(
+                height: 50,
               ),
             ],
           );

@@ -1,16 +1,16 @@
+import 'package:app_ecom_buidlagga/models/payment_methot_model.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../shared/theme.dart';
 
 class CardBank extends StatelessWidget {
-  final String title;
-  final String imgUrl;
+  final PaymentMethodModel paymentMethod;
   final bool isSelected;
+
   const CardBank({
     super.key,
-    required this.title,
-    required this.imgUrl,
     this.isSelected = false,
+    required this.paymentMethod,
   });
 
   @override
@@ -27,16 +27,11 @@ class CardBank extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Image.asset(
-            imgUrl,
-            width: 96,
-            height: 30,
-          ),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                title,
+                paymentMethod.name.toString(),
                 style:
                     blackTextStyle.copyWith(fontWeight: medium, fontSize: 16),
               ),

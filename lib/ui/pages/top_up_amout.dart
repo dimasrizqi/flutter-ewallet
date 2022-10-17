@@ -1,3 +1,4 @@
+import 'package:app_ecom_buidlagga/models/top_up_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -6,7 +7,9 @@ import '../../shared/theme.dart';
 import '../widgets/buttons.dart';
 
 class TopUpAmount extends StatefulWidget {
-  const TopUpAmount({super.key});
+  final TopFromModel data;
+
+  const TopUpAmount({super.key, required this.data});
 
   @override
   State<TopUpAmount> createState() => _TopUpAmountState();
@@ -208,6 +211,7 @@ class _TopUpAmountState extends State<TopUpAmount> {
               if (await Navigator.pushNamed(context, '/pin-page') == true) {
                 await launch('https://demo.midtrans.com/');
 
+                // ignore: use_build_context_synchronously
                 Navigator.pushNamedAndRemoveUntil(
                     context, '/top-up-sukses', (route) => false);
               }

@@ -44,19 +44,19 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                 items: [
                   Image.asset(
                     'assets/img_onboarding1.png',
-                    height: 331,
+                    height: 300,
                   ),
                   Image.asset(
                     'assets/img_onboarding2.png',
-                    height: 331,
+                    height: 300,
                   ),
                   Image.asset(
                     'assets/img_onboarding3.png',
-                    height: 331,
+                    height: 300,
                   ),
                 ],
                 options: CarouselOptions(
-                  height: 331,
+                  height: 250,
                   viewportFraction: 1,
                   enableInfiniteScroll: false,
                   onPageChanged: (index, reason) {

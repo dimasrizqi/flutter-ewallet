@@ -7,17 +7,17 @@ import 'package:http/http.dart' as http;
 import '../shared/shared_values.dart';
 
 class PaymenMethodSevice {
-  Future<List<PaymentMethodMode>> getPaymenteMethods() async {
+  Future<List<PaymentMethodModel>> getPaymenteMethods() async {
     try {
       final token = await AuthSevices().getToken();
       final res =
-          await http.put(Uri.parse('$baseUrl/payment_methods'), headers: {
+          await http.get(Uri.parse('$baseUrl/payment_methods'), headers: {
         'Authorization': token,
       });
 
       if (res.statusCode == 200) {
-        return List<PaymentMethodMode>.from(jsonDecode(res.body).map(
-                (paymentMethod) => PaymentMethodMode.fromJson(paymentMethod)))
+        return List<PaymentMethodModel>.from(jsonDecode(res.body).map(
+                (paymentMethod) => PaymentMethodModel.fromJson(paymentMethod)))
             .toList();
       } else {
         throw jsonDecode(res.body)['message'];

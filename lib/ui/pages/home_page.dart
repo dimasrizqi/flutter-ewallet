@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
               icon: Image.asset(
                 'assets/ic_overview.png',
                 color: blueColor,
-                width: 20,
+                width: 15,
               ),
               label: 'Overview',
             ),
@@ -191,7 +191,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 // ignore: prefer_const_constructors
                 SizedBox(
-                  height: 28,
+                  height: 10,
                 ),
                 Text(
                   '*** *** *** ${state.user.cardNumber!.substring(12, 16)}',
@@ -200,7 +200,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 // ignore: prefer_const_constructors
                 SizedBox(
-                  height: 21,
+                  height: 10,
                 ),
                 Text(
                   'Balance',

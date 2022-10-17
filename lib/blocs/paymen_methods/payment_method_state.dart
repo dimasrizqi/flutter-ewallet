@@ -20,7 +20,7 @@ class PaymentMethodFailed extends PaymentMethodState {
 }
 
 class PaymentMethodSuccess extends PaymentMethodState {
-  final List<PaymentMethodMode> paymentMenthost;
+  final List<PaymentMethodModel> paymentMenthost;
   const PaymentMethodSuccess(this.paymentMenthost);
 
   @override

@@ -7,7 +7,6 @@ import 'package:app_ecom_buidlagga/ui/pages/profil__edit_susses.dart';
 import 'package:app_ecom_buidlagga/ui/pages/sign_in_page.dart';
 import 'package:app_ecom_buidlagga/ui/pages/sign_up_page.dart';
 
-import 'package:app_ecom_buidlagga/ui/pages/top_up_amout.dart';
 import 'package:app_ecom_buidlagga/ui/pages/top_up_page.dart';
 import 'package:app_ecom_buidlagga/ui/pages/top_up_succses.dart';
 import 'package:app_ecom_buidlagga/ui/pages/tranfer_amout_page.dart';
@@ -72,7 +71,6 @@ class MyApp extends StatelessWidget {
           '/edit-profil-pin': (context) => const ProfilEditPin(),
           '/edit-profil-sukses': (context) => const EditProfileSukses(),
           '/top-up': (context) => const TopUpPage(),
-          '/top-up-amount': (context) => const TopUpAmount(),
           '/top-up-sukses': (context) => const TopUpSuccses(),
           '/tranfer-page': (context) => const TranferPage(),
           '/tranfer-amount': (context) => const TranferAmount(),
