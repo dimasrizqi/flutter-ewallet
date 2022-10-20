@@ -17,8 +17,13 @@ class TopupFailed extends TopupState {
   const TopupFailed(this.e);
 
   @override
-  // TODO: implement props
   List<Object> get props => [e];
 }
 
-class TopupSucces extends TopupState {}
+class TopupSucces extends TopupState {
+  final String reditrectUrl;
+  const TopupSucces(this.reditrectUrl);
+
+  @override
+  List<Object> get props => [reditrectUrl];
+}

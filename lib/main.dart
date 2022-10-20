@@ -1,4 +1,5 @@
 import 'package:app_ecom_buidlagga/blocs/auth/auth_bloc.dart';
+import 'package:app_ecom_buidlagga/blocs/user/user_bloc.dart';
 import 'package:app_ecom_buidlagga/ui/pages/data_pakage_page.dart';
 import 'package:app_ecom_buidlagga/ui/pages/data_provider_page.dart';
 import 'package:app_ecom_buidlagga/ui/pages/data_sukses_page.dart';
@@ -42,6 +43,9 @@ class MyApp extends StatelessWidget {
               AuthGetCurrentUser(),
             ),
         ),
+        BlocProvider(
+          create: (context) => UserBloc(),
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -73,7 +77,6 @@ class MyApp extends StatelessWidget {
           '/top-up': (context) => const TopUpPage(),
           '/top-up-sukses': (context) => const TopUpSuccses(),
           '/tranfer-page': (context) => const TranferPage(),
-          '/tranfer-amount': (context) => const TranferAmount(),
           '/tranfer-sukses': (context) => const TranferSukses(),
           '/data-provider': (context) => const DataProvider(),
           '/data-pakage': (context) => const DataProviderPage(),

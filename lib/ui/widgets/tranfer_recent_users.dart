@@ -1,18 +1,14 @@
+import 'package:app_ecom_buidlagga/models/user_model.dart';
 import 'package:app_ecom_buidlagga/shared/theme.dart';
+import 'package:app_ecom_buidlagga/ui/pages/profile_edit_pin.dart';
 import 'package:flutter/material.dart';
 
 class TranferRecentUsers extends StatelessWidget {
-  final String userName;
-  final String name;
-  final bool isVerified;
-  final String imgUrl;
-
-  const TranferRecentUsers(
-      {super.key,
-      required this.userName,
-      required this.name,
-      this.isVerified = false,
-      required this.imgUrl});
+  final UserModel users;
+  const TranferRecentUsers({
+    super.key,
+    required this.users,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +27,17 @@ class TranferRecentUsers extends StatelessWidget {
             width: 50,
             margin: const EdgeInsets.only(right: 14),
             height: 50,
+            // ignore: prefer_const_constructors
             decoration: BoxDecoration(
               shape: BoxShape.circle,
+              // ignore: prefer_const_constructors
               image: DecorationImage(
-                image: AssetImage(
-                  imgUrl,
-                ),
+                image: users.profilePicture == null
+                    // ignore: prefer_const_constructors
+                    ? AssetImage(
+                        'assets/img_profile.png',
+                      )
+                    : NetworkImage(users.profilePicture!) as ImageProvider,
               ),
             ),
           ),
@@ -44,18 +45,19 @@ class TranferRecentUsers extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                name,
+                users.name.toString(),
                 style: blackTextStyle.copyWith(
                   fontWeight: medium,
                   fontSize: 16,
                 ),
+                textAlign: TextAlign.center,
               ),
               // ignore: prefer_const_constructors
               SizedBox(
                 height: 2,
               ),
               Text(
-                "@$userName",
+                "@${users.username}",
                 style: greyTextStyle.copyWith(
                   fontWeight: regular,
                   fontSize: 12,
@@ -64,7 +66,7 @@ class TranferRecentUsers extends StatelessWidget {
             ],
           ),
           const Spacer(),
-          if (isVerified)
+          if (users.verified == 1)
             Row(
               children: [
                 Icon(

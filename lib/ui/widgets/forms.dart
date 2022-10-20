@@ -13,6 +13,7 @@ class CustomFormField extends StatelessWidget {
   const CustomFormField({
     Key? key,
     required this.title,
+    t,
     this.obscureText = false,
     this.controller,
     this.isShowTitle = true,

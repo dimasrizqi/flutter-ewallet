@@ -1,26 +1,21 @@
+import 'package:app_ecom_buidlagga/models/user_model.dart';
 import 'package:app_ecom_buidlagga/shared/theme.dart';
 import 'package:flutter/material.dart';
 
 class ResultUsers extends StatelessWidget {
-  final String userName;
-  final String name;
-  final bool isVerified;
-  final String imgUrl;
+  final UserModel user;
   final bool isSelected;
   const ResultUsers({
     super.key,
-    required this.userName,
-    required this.name,
-    this.isVerified = false,
-    required this.imgUrl,
     this.isSelected = false,
+    required this.user,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 175,
-      width: 155,
+      height: 210,
+      width: 150,
       padding: const EdgeInsets.symmetric(
         horizontal: 14,
         vertical: 22,
@@ -38,16 +33,26 @@ class ResultUsers extends StatelessWidget {
             height: 70,
             width: 70,
             decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(image: AssetImage(imgUrl))),
-            child: isVerified
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                image: user.profilePicture == null
+                    // ignore: prefer_const_constructors
+                    ? AssetImage(
+                        'assets/img_profile.png',
+                      )
+                    : NetworkImage(user.profilePicture!) as ImageProvider,
+              ),
+            ),
+            child: user.verified == 1
                 ? Align(
                     alignment: Alignment.topRight,
                     child: Container(
                       width: 16,
                       height: 16,
                       decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: whiteColor),
+                        shape: BoxShape.circle,
+                        color: whiteColor,
+                      ),
                       child: Icon(
                         Icons.check_circle,
                         size: 14,
@@ -58,18 +63,19 @@ class ResultUsers extends StatelessWidget {
                 : null,
           ),
           Text(
-            name,
+            user.name.toString(),
             style: blackTextStyle.copyWith(
               fontWeight: medium,
               fontSize: 16,
             ),
+            textAlign: TextAlign.center,
           ),
           // ignore: prefer_const_constructors
           SizedBox(
             height: 2,
           ),
           Text(
-            '@$userName',
+            '@${user.username}',
             style: greyTextStyle.copyWith(
               fontWeight: regular,
               fontSize: 12,

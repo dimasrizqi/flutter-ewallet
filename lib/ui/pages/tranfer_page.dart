@@ -1,14 +1,36 @@
 // ignore: file_names
+import 'package:app_ecom_buidlagga/blocs/auth/auth_bloc.dart';
+import 'package:app_ecom_buidlagga/blocs/user/user_bloc.dart';
+import 'package:app_ecom_buidlagga/models/tranfer_from_model.dart';
+import 'package:app_ecom_buidlagga/models/user_model.dart';
 import 'package:app_ecom_buidlagga/shared/theme.dart';
+import 'package:app_ecom_buidlagga/ui/pages/tranfer_amout_page.dart';
 import 'package:app_ecom_buidlagga/ui/widgets/tranfer_recent_users.dart';
 import 'package:app_ecom_buidlagga/ui/widgets/tranfer_result_user.dart.dart';
 import 'package:flutter/material.dart';
-
 import '../widgets/buttons.dart';
 import '../widgets/forms.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class TranferPage extends StatelessWidget {
+class TranferPage extends StatefulWidget {
   const TranferPage({super.key});
+
+  @override
+  State<TranferPage> createState() => _TranferPageState();
+}
+
+class _TranferPageState extends State<TranferPage> {
+  final usernameController = TextEditingController(text: '');
+  UserModel? seletedUser;
+
+  late UserBloc userBloc;
+
+  @override
+  void initState() {
+    super.initState();
+
+    userBloc = context.read<UserBloc>()..add(UserGetRecent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,26 +52,50 @@ class TranferPage extends StatelessWidget {
           const SizedBox(
             height: 14,
           ),
-          const CustomFormField(
+          CustomFormField(
             title: 'by username',
             isShowTitle: false,
-          ),
-          // buildRecenUsers()
-          buildResuitl(),
-          const SizedBox(
-            height: 250,
-          ),
-          CustomFilledButton(
-            title: 'Continue',
-            onPressed: () {
-              Navigator.pushNamed(context, '/tranfer-amount');
+            controller: usernameController,
+            onFieldSubmitted: (value) {
+              if (value.isNotEmpty) {
+                userBloc.add(
+                  UserGetByUsername(usernameController.text),
+                );
+              } else {
+                seletedUser = null;
+                userBloc.add(UserGetRecent());
+              }
+              setState(() {});
             },
           ),
+          usernameController.text.isEmpty ? buildRecenUsers() : buildResuitl(),
+
           const SizedBox(
             height: 50,
           ),
         ],
       ),
+      floatingActionButton: seletedUser != null
+          ? Container(
+              margin: const EdgeInsets.all(24),
+              child: CustomFilledButton(
+                title: 'Continue',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TranferAmount(
+                        data: TransferFormModel(
+                          sendTo: seletedUser!.username,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            )
+          : Container(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
@@ -67,24 +113,33 @@ class TranferPage extends StatelessWidget {
           SizedBox(
             height: 14,
           ),
-          const TranferRecentUsers(
-            userName: 'yoenna',
-            name: 'Yonna Jie',
-            isVerified: true,
-            imgUrl: 'assets/img_friend1.png',
-          ),
-          const TranferRecentUsers(
-            userName: 'jhi',
-            name: 'John Hi',
-            isVerified: false,
-            imgUrl: 'assets/img_friend2.png',
-          ),
-          const TranferRecentUsers(
-            userName: 'form',
-            name: 'Masayoshi',
-            isVerified: false,
-            imgUrl: 'assets/img_friend3.png',
-          ),
+          BlocBuilder<UserBloc, UserState>(
+            builder: (context, state) {
+              if (state is UserSuccess) {
+                return Column(
+                  children: state.users.map((user) {
+                    return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TranferAmount(
+                                data: TransferFormModel(
+                                  sendTo: user.username,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        child: TranferRecentUsers(users: user));
+                  }).toList(),
+                );
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          )
         ],
       ),
     );
@@ -97,30 +152,36 @@ class TranferPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Search',
+            'Result',
             style: blackTextStyle.copyWith(fontWeight: semiBold, fontSize: 16),
           ),
           const SizedBox(
             height: 14,
           ),
-          Wrap(
-            spacing: 17,
-            runSpacing: 17,
-            children: const [
-              ResultUsers(
-                userName: 'yoenna',
-                name: 'Yonna Jie',
-                isVerified: true,
-                imgUrl: 'assets/img_friend1.png',
-              ),
-              ResultUsers(
-                userName: 'yoenna',
-                name: 'Yonna Jie',
-                isVerified: false,
-                imgUrl: 'assets/img_friend2.png',
-                isSelected: true,
-              ),
-            ],
+          BlocBuilder<UserBloc, UserState>(
+            builder: (context, state) {
+              if (state is UserSuccess) {
+                return Wrap(
+                    spacing: 17,
+                    runSpacing: 10,
+                    children: state.users.map((user) {
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            seletedUser = user;
+                          });
+                        },
+                        child: ResultUsers(
+                          user: user,
+                          isSelected: user.id == seletedUser?.id,
+                        ),
+                      );
+                    }).toList());
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
           ),
         ],
       ),
