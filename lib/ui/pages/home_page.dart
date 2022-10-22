@@ -1,8 +1,13 @@
 import 'package:app_ecom_buidlagga/shared/shared_methods.dart';
+import 'package:app_ecom_buidlagga/ui/pages/tranfer_amout_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../blocs/auth/auth_bloc.dart';
+import '../../blocs/tip/tip_bloc.dart';
+import '../../blocs/transacsions/transacsion_bloc.dart';
+import '../../blocs/user/user_bloc.dart';
+import '../../models/tranfer_from_model.dart';
 import '../../shared/theme.dart';
 import '../widgets/home_sevicer.dart';
 import '../widgets/home_tips_item.dart';
@@ -356,39 +361,24 @@ class _HomePageState extends State<HomePage> {
               color: whiteColor,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Column(
-              children: [
-                HomeTransions(
-                  iconUrl: 'assets/ic_transaction_cat1.png',
-                  title: 'Top Up',
-                  time: 'Yesterday',
-                  value: '+ ${formatCurrency(45000, symbol: '')}',
+            child: BlocProvider(
+              create: (context) => TransacsionBloc()
+                ..add(
+                  TransacsionGet(),
                 ),
-                HomeTransions(
-                  iconUrl: 'assets/ic_transaction_cat2.png',
-                  title: 'Cashback',
-                  time: 'Sep 11',
-                  value: '+${formatCurrency(22000, symbol: '')}',
-                ),
-                HomeTransions(
-                  iconUrl: 'assets/ic_transaction_cat3.png',
-                  title: 'Withdraw',
-                  time: 'Sep 2',
-                  value: '- ${formatCurrency(5000, symbol: '')}',
-                ),
-                HomeTransions(
-                  iconUrl: 'assets/ic_transaction_cat4.png',
-                  title: 'Transfer',
-                  time: 'Aug 27',
-                  value: '- ${formatCurrency(123500, symbol: '')}',
-                ),
-                HomeTransions(
-                  iconUrl: 'assets/ic_transaction_cat5.png',
-                  title: 'Electric',
-                  time: 'Aug 27',
-                  value: '- ${formatCurrency(12330000, symbol: '')}',
-                ),
-              ],
+              child: BlocBuilder<TransacsionBloc, TransacsionState>(
+                builder: (context, state) {
+                  if (state is TransacsionSuccess) {
+                    return Column(
+                        children: state.transacsions.map((transacsion) {
+                      return HomeTransions(transacsions: transacsion);
+                    }).toList());
+                  }
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              ),
             ),
           )
         ],
@@ -413,28 +403,38 @@ class _HomePageState extends State<HomePage> {
           SizedBox(
             height: 14,
           ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              // ignore: prefer_const_literals_to_create_immutables
-              children: [
-                const HomeUser(
-                  imageUrl: 'assets/img_friend1.png',
-                  username: 'yuanita',
-                ),
-                const HomeUser(
-                  imageUrl: 'assets/img_friend2.png',
-                  username: 'budi',
-                ),
-                const HomeUser(
-                  imageUrl: 'assets/img_friend3.png',
-                  username: 'anjel',
-                ),
-                const HomeUser(
-                  imageUrl: 'assets/img_friend4.png',
-                  username: 'siap',
-                ),
-              ],
+          BlocProvider(
+            create: (context) => UserBloc()..add(UserGetRecent()),
+            child: BlocBuilder<UserBloc, UserState>(
+              builder: (context, state) {
+                if (state is UserSuccess) {
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      // ignore: prefer_const_literals_to_create_immutables
+                      children: state.users.map((user) {
+                        return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TranferAmount(
+                                    data: TransferFormModel(
+                                      sendTo: user.username,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            child: HomeUser(user: user));
+                      }).toList(),
+                    ),
+                  );
+                }
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
             ),
           )
         ],
@@ -460,31 +460,43 @@ class _HomePageState extends State<HomePage> {
             height: 14,
           ),
           // ignore: prefer_const_constructors
-          Wrap(
-            spacing: 15,
-            runSpacing: 15,
-            children: const [
-              HomeTips(
-                imgUrl: 'assets/img_tips1.png',
-                title: 'Best tips for using a credit card',
-                url: 'https://www.bogorloker.com/',
-              ),
-              HomeTips(
-                imgUrl: 'assets/img_tips2.png',
-                title: 'Spot the good pie of finance model',
-                url: 'https://www.bogorloker.com/',
-              ),
-              HomeTips(
-                imgUrl: 'assets/img_tips3.png',
-                title: 'Great hack to get better advices',
-                url: 'https://www.bogorloker.com/',
-              ),
-              HomeTips(
-                imgUrl: 'assets/img_tips4.png',
-                title: 'Save more penny buy this instead',
-                url: 'https://www.bogorloker.com/',
-              ),
-            ],
+          BlocProvider(
+            create: (context) => TipBloc()..add(TipGet()),
+            child: BlocBuilder<TipBloc, TipState>(
+              builder: (context, state) {
+                if (state is TipSuccess) {
+                  return Wrap(
+                    spacing: 15,
+                    runSpacing: 15,
+                    children: const [
+                      HomeTips(
+                        imgUrl: 'assets/img_tips1.png',
+                        title: 'Best tips for using a credit card',
+                        url: 'https://www.bogorloker.com/',
+                      ),
+                      HomeTips(
+                        imgUrl: 'assets/img_tips2.png',
+                        title: 'Spot the good pie of finance model',
+                        url: 'https://www.bogorloker.com/',
+                      ),
+                      HomeTips(
+                        imgUrl: 'assets/img_tips3.png',
+                        title: 'Great hack to get better advices',
+                        url: 'https://www.bogorloker.com/',
+                      ),
+                      HomeTips(
+                        imgUrl: 'assets/img_tips4.png',
+                        title: 'Save more penny buy this instead',
+                        url: 'https://www.bogorloker.com/',
+                      ),
+                    ],
+                  );
+                }
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            ),
           )
         ],
       ),

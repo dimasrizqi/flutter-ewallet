@@ -79,7 +79,6 @@ class MyApp extends StatelessWidget {
           '/tranfer-page': (context) => const TranferPage(),
           '/tranfer-sukses': (context) => const TranferSukses(),
           '/data-provider': (context) => const DataProvider(),
-          '/data-pakage': (context) => const DataProviderPage(),
           '/data-sukses': (context) => const DataSuksesPage(),
         },
       ),

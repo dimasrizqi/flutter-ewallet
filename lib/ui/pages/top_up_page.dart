@@ -59,7 +59,7 @@ class _TopUpPageState extends State<TopUpPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          state.user.cardNumber!.replaceFirstMapped(
+                          state.user.cardNumber!.replaceAllMapped(
                               RegExp(r".{4}"), (match) => '${match.group(0)} '),
                           style: blackTextStyle.copyWith(
                               fontWeight: medium, fontSize: 16),

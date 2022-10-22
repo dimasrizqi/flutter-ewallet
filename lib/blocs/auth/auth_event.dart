@@ -54,6 +54,5 @@ class AuthUpdateBelance extends AuthEvent {
   final int amount;
   const AuthUpdateBelance(this.amount);
   @override
-  // TODO: implement props
   List<Object> get props => [amount];
 }

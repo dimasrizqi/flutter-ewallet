@@ -24,7 +24,6 @@ class HomeTips extends StatelessWidget {
           // ignore: deprecated_member_use
           launch(url);
         }
-        ;
       },
       child: Container(
         width: 155,

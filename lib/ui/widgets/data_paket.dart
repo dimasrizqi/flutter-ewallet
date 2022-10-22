@@ -1,16 +1,15 @@
+import 'package:app_ecom_buidlagga/models/data_palan_model.dart';
 import 'package:app_ecom_buidlagga/shared/shared_methods.dart';
 import 'package:app_ecom_buidlagga/shared/theme.dart';
 import 'package:flutter/material.dart';
 
 class DataPaket extends StatelessWidget {
-  final int kouTa;
-  final int hargaKouta;
+  final DataPlanModel dataPlan;
   final bool isSelected;
   const DataPaket({
     super.key,
-    required this.kouTa,
-    required this.hargaKouta,
     this.isSelected = false,
+    required this.dataPlan,
   });
 
   @override
@@ -29,11 +28,11 @@ class DataPaket extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            '${kouTa}GB',
+            dataPlan.name.toString(),
             style: blackTextStyle.copyWith(fontWeight: medium, fontSize: 32),
           ),
           Text(
-            formatCurrency(hargaKouta),
+            formatCurrency(dataPlan.price ?? 0),
             style: greyTextStyle.copyWith(fontWeight: regular, fontSize: 12),
           ),
         ],

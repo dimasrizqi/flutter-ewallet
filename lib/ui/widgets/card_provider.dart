@@ -1,16 +1,15 @@
+import 'package:app_ecom_buidlagga/models/oprator_card_model.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../shared/theme.dart';
 
 class CardProvider extends StatelessWidget {
-  final String title;
-  final String imgUrl;
+  final OpratorCardModel opratorCard;
   final bool isSelected;
   const CardProvider({
     super.key,
-    required this.title,
-    required this.imgUrl,
     this.isSelected = false,
+    required this.opratorCard,
   });
 
   @override
@@ -27,15 +26,15 @@ class CardProvider extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Image.asset(
-            imgUrl,
+          Image.network(
+            opratorCard.thumbnail.toString(),
             height: 30,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                title,
+                opratorCard.name.toString(),
                 style:
                     blackTextStyle.copyWith(fontWeight: medium, fontSize: 16),
               ),
@@ -43,7 +42,7 @@ class CardProvider extends StatelessWidget {
                 height: 2,
               ),
               Text(
-                "Available",
+                opratorCard.status.toString(),
                 style:
                     greyTextStyle.copyWith(fontWeight: regular, fontSize: 12),
               ),

@@ -1,16 +1,13 @@
+import 'package:app_ecom_buidlagga/models/user_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 import '../../shared/theme.dart';
 
 class HomeUser extends StatelessWidget {
-  final String imageUrl;
-  final String username;
+  final UserModel user;
   const HomeUser({
     super.key,
-    required this.imageUrl,
-    required this.username,
+    required this.user,
   });
 
   @override
@@ -35,14 +32,19 @@ class HomeUser extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               image: DecorationImage(
-                  image: AssetImage(imageUrl), fit: BoxFit.cover),
+                  image: user.profilePicture == null
+                      ? const AssetImage(
+                          'assets/img_profile.png',
+                        )
+                      : NetworkImage(user.profilePicture!) as ImageProvider,
+                  fit: BoxFit.cover),
             ),
           ),
           const SizedBox(
             height: 18,
           ),
           Text(
-            '@$username',
+            '@${user.username}',
             style: blackTextStyle.copyWith(
               fontSize: 12,
               fontWeight: medium,

@@ -1,31 +1,26 @@
+import 'package:app_ecom_buidlagga/models/transaction_model.dart';
+import 'package:app_ecom_buidlagga/shared/shared_methods.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
+import 'package:intl/intl.dart';
 
 import '../../shared/theme.dart';
 
 class HomeTransions extends StatelessWidget {
-  final String iconUrl;
-  final String title;
-  final String time;
-  final String value;
-  const HomeTransions(
-      {super.key,
-      required this.iconUrl,
-      required this.title,
-      required this.time,
-      required this.value});
+  final TransacsionFromModel transacsions;
+  final String? imgUrl;
+  const HomeTransions({
+    super.key,
+    required this.transacsions,
+    this.imgUrl,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 20),
+      margin: const EdgeInsets.only(bottom: 20),
       child: Row(
         children: [
-          Image.asset(
-            iconUrl,
-            width: 48,
-          ),
           const SizedBox(
             width: 16,
           ),
@@ -34,7 +29,7 @@ class HomeTransions extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  title,
+                  transacsions.transactionType!.name.toString(),
                   style:
                       blackTextStyle.copyWith(fontWeight: medium, fontSize: 16),
                 ),
@@ -42,7 +37,9 @@ class HomeTransions extends StatelessWidget {
                   height: 2,
                 ),
                 Text(
-                  time,
+                  DateFormat('MMM dd').format(
+                    transacsions.createdAt ?? DateTime.now(),
+                  ),
                   style:
                       greyTextStyle.copyWith(fontWeight: regular, fontSize: 14),
                 ),
@@ -51,7 +48,11 @@ class HomeTransions extends StatelessWidget {
           ),
           // ignore: prefer_const_constructors
           Text(
-            value,
+            formatCurrency(
+              transacsions.amount ?? 0,
+              symbol:
+                  transacsions.transactionType?.action == 'cr' ? '+ ' : '- ',
+            ),
             style: blackTextStyle.copyWith(fontWeight: medium, fontSize: 16),
           )
         ],
