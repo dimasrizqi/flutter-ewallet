@@ -37,4 +37,16 @@ flutter run
 ```
 
 
+## Link Bank BCA,BNI,BRI
+
+Jika Kalian Ingin Topup Lakukan Pembayaran ,Salin Link yang Virtual accout,
+Dan Masukan Ke Link sesuai Bank
+
+| Bank | Link |
+| ------ | ------ |
+| BCA | https://simulator.sandbox.midtrans.com/bca/va/index
+| BRI | https://simulator.sandbox.midtrans.com/bri/va/index
+| BNI | https://simulator.sandbox.midtrans.com/bni/va/index
+
+
 
