@@ -1,4 +1,4 @@
-# app_ecom_buidlagga
+# AppEwallet
 
 A new Flutter project.
 
